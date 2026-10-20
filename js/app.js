@@ -1,11 +1,15 @@
 import { loadChannels, groupByCategory } from './data.js';
+import { renderPlayer } from './player.js';
 
-const TYPE_LABELS = {
-  web: 'Sitio oficial',
-  youtube: 'Canal de YouTube',
+const KIND_LABELS = {
+  web: 'Sitio oficial, se abre en una pestaña nueva',
+  live: 'En vivo, se ve aquí en la app',
+  latest: 'Últimos videos, se ven aquí en la app',
 };
 
 const list = document.getElementById('lista-canales');
+const playerBox = document.getElementById('reproductor-contenido');
+let selectedButton = null;
 
 function isHttps(url) {
   try {
@@ -22,25 +26,50 @@ function showMessage(text) {
   list.replaceChildren(message);
 }
 
-// Los textos se ponen con textContent (nunca innerHTML) para que ningún dato pueda inyectar código.
-function buildChannel(channel) {
-  const item = document.createElement('li');
-  const link = document.createElement('a');
-  link.className = 'channel';
-  link.href = channel.url;
-  link.target = '_blank';
-  link.rel = 'noopener noreferrer';
-
+function buildLabels(channel, kindText) {
   const name = document.createElement('span');
   name.className = 'channel-name';
   name.textContent = channel.name;
 
   const kind = document.createElement('span');
   kind.className = 'channel-kind';
-  kind.textContent = `${TYPE_LABELS[channel.type] ?? 'Sitio oficial'}, se abre en una pestaña nueva`;
+  kind.textContent = kindText;
+  return [name, kind];
+}
 
-  link.append(name, kind);
-  item.append(link);
+// Canal web: enlace al sitio oficial en una pestaña nueva.
+function buildWebChannel(channel) {
+  const link = document.createElement('a');
+  link.className = 'channel';
+  link.href = channel.url;
+  link.target = '_blank';
+  link.rel = 'noopener noreferrer';
+  link.append(...buildLabels(channel, KIND_LABELS.web));
+  return link;
+}
+
+// Canal de YouTube: botón que reproduce dentro de la app.
+function buildYouTubeChannel(channel) {
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'channel';
+  button.setAttribute('aria-pressed', 'false');
+  button.append(...buildLabels(channel, KIND_LABELS[channel.mode] ?? KIND_LABELS.live));
+
+  button.addEventListener('click', () => {
+    if (selectedButton) selectedButton.setAttribute('aria-pressed', 'false');
+    selectedButton = button;
+    button.setAttribute('aria-pressed', 'true');
+    renderPlayer(playerBox, channel);
+    playerBox.scrollIntoView({ block: 'nearest' });
+  });
+  return button;
+}
+
+// Los textos se ponen con textContent (nunca innerHTML) para que ningún dato pueda inyectar código.
+function buildChannel(channel) {
+  const item = document.createElement('li');
+  item.append(channel.type === 'youtube' ? buildYouTubeChannel(channel) : buildWebChannel(channel));
   return item;
 }
 

@@ -83,7 +83,11 @@ header p {
 
 .channel {
   display: block;
+  width: 100%;
   min-height: 48px;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
   padding: var(--space-2);
   background: var(--plate);
   color: var(--bone);
@@ -114,7 +118,84 @@ header p {
   font-size: 0.8125rem;
 }
 
+.channel[aria-pressed="true"] {
+  background: var(--stripe-orange);
+  color: var(--on-stripe);
+}
+
 .message {
   margin: 0;
   color: var(--ink-muted);
+}
+
+/* Reproductor: en vertical queda debajo de la lista. */
+.layout {
+  display: grid;
+  gap: var(--space-3);
+}
+
+#reproductor {
+  min-width: 0;
+}
+
+.player-frame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: var(--surface);
+}
+
+.player-frame iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.player-fallback {
+  display: grid;
+  gap: var(--space-2);
+  justify-items: start;
+  margin-top: var(--space-2);
+}
+
+.open-youtube {
+  display: inline-block;
+  min-height: 48px;
+  padding: var(--space-2) var(--space-3);
+  background: var(--stripe-magenta);
+  color: var(--on-stripe);
+  border: 2px solid var(--btn-edge);
+  border-radius: var(--radius-none);
+  font-family: var(--f-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.open-youtube:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* En horizontal: la lista queda al lado del reproductor. */
+@media (orientation: landscape) and (min-width: 700px) {
+  .card {
+    max-width: 1200px;
+  }
+
+  .layout {
+    grid-template-columns: minmax(240px, 340px) minmax(0, 1fr);
+    align-items: start;
+  }
+
+  #lista-canales {
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+
+  #reproductor {
+    position: sticky;
+    top: var(--space-2);
+  }
 }
