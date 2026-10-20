@@ -1,0 +1,30 @@
+/* Analog Sunset: variables de diseño para la app de canales.
+   Tema noche (por defecto) y tema etiqueta (rosa, con data-look="label" en <html>).
+   Reglas: bordes cuadrados (solo la tarjeta exterior es redondeada), sin sombras,
+   sin degradados, sin emoji ni signos de exclamación. Las franjas van siempre en este orden:
+   naranja, rojo, magenta, violeta. No agregar un quinto color. */
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600&family=Noto+Sans+JP:wght@400;500;900&display=swap");
+
+:root{
+  --surface:#18000c; --surface-raised:#210117; --surface-inverse:#cc90b4; --plate:#48243c;
+  --ink:#f4e2e0; --ink-muted:#cc90b4; --ink-on-inverse:#4a1a44; --bone:#f4e2e0; --plum:#672d54;
+  --rule:#cc90b480;
+  --stripe-orange:#fc6c18; --stripe-red:#fc0c24; --stripe-magenta:#f00c84; --stripe-violet:#600084;
+  --on-stripe:#18000c;
+  --focus:var(--stripe-orange);   /* anillo de foco: 2px, separación 2px */
+  --title-color:var(--bone); --btn-edge:transparent;
+  --space-1:8px; --space-2:12px; --space-3:24px; --space-4:36px;
+  --radius-none:0; --radius-card:36px;
+  --f-display:"Barlow Condensed","Arial Narrow","Helvetica Neue",sans-serif;
+  --f-jp:"Noto Sans JP","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
+  color-scheme:dark;
+}
+:root[data-look="label"]{
+  --surface:#cc90b4; --surface-raised:#d89cc0; --surface-inverse:#18000c;
+  --ink:#2b0a26; --ink-muted:#4a1a44; --ink-on-inverse:#f4e2e0; --rule:#672d54;
+  --focus:var(--ink); --title-color:var(--plum); --btn-edge:var(--ink);
+  color-scheme:light;
+}
+
+/* Reglas de color de texto: --ink sobre --surface; --on-stripe sobre naranja, rojo y magenta;
+   --bone sobre violeta y --plate; el violeta y --stamp-red no llevan texto solos. */

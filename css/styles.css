@@ -1,0 +1,13 @@
+@import url("../design/tokens.css");
+
+body {
+  margin: 0;
+  padding: var(--space-3);
+  background: var(--surface);
+  color: var(--ink);
+  font-family: var(--f-display);
+}
+
+h1 {
+  color: var(--title-color);
+}

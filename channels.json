@@ -1,0 +1,15 @@
+[
+  { "id": "chilevision", "name": "Chilevisión (CHV)", "category": "Canales abiertos de Chile",
+    "type": "web", "url": "https://www.chilevision.cl/senal-online" },
+  { "id": "chv-noticias", "name": "CHV Noticias", "category": "Canales abiertos de Chile",
+    "type": "web", "url": "https://www.chvnoticias.cl/" },
+  { "id": "mega", "name": "Mega", "category": "Canales abiertos de Chile",
+    "type": "web", "url": "https://www.mega.cl/" },
+  { "id": "tvn", "name": "TVN", "category": "Canales abiertos de Chile",
+    "type": "web", "url": "https://www.tvn.cl/en-vivo" },
+  { "id": "canal13", "name": "Canal 13", "category": "Canales abiertos de Chile",
+    "type": "web", "url": "https://www.13.cl/en-vivo" },
+  { "id": "nasa", "name": "NASA", "category": "Ciencia",
+    "type": "youtube", "channelId": "UCLA_DiR1FfKNvjuUpBHmylQ",
+    "url": "https://www.youtube.com/@NASA" }
+]

@@ -1,0 +1,18 @@
+# Claves y datos privados
+.env*
+*secrets*
+
+# Dependencias
+node_modules/
+
+# Android
+android/local.properties
+
+# Carpetas de trabajo de herramientas y editores
+.claude/
+.vscode/
+.idea/
+
+# Sistema
+Thumbs.db
+.DS_Store
