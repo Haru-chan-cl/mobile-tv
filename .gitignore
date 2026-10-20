@@ -16,3 +16,6 @@ android/local.properties
 # Sistema
 Thumbs.db
 .DS_Store
+
+# Capturas y registros de pruebas en navegador
+.playwright-mcp/

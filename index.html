@@ -7,10 +7,21 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <main>
-    <h1>Canales</h1>
-    <p>La app está en construcción.</p>
-  </main>
-  <script src="js/app.js"></script>
+  <div class="card">
+    <div class="stripes" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+    <header>
+      <h1>Canales</h1>
+      <p>Señales oficiales de televisión, noticias y ciencia.</p>
+    </header>
+    <main>
+      <section id="en-vivo" aria-labelledby="en-vivo-titulo">
+        <h2 id="en-vivo-titulo">En vivo</h2>
+        <div id="lista-canales" aria-live="polite">
+          <p class="message">Cargando canales...</p>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script type="module" src="js/app.js"></script>
 </body>
 </html>

@@ -1,13 +1,120 @@
 @import url("../design/tokens.css");
 
-body {
-  margin: 0;
-  padding: var(--space-3);
-  background: var(--surface);
-  color: var(--ink);
-  font-family: var(--f-display);
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-h1 {
+body {
+  margin: 0;
+  padding: var(--space-2);
+  background: var(--surface);
+  color: var(--ink);
+  font-family: var(--f-jp);
+  line-height: 1.5;
+}
+
+/* La tarjeta exterior es lo único con esquinas redondeadas. */
+.card {
+  max-width: 720px;
+  margin: 0 auto;
+  overflow: hidden;
+  background: var(--surface-raised);
+  border-radius: var(--radius-card);
+}
+
+/* Franjas siempre en este orden: naranja, rojo, magenta, violeta. */
+.stripes {
+  display: flex;
+  height: var(--space-1);
+}
+
+.stripes span {
+  flex: 1;
+}
+
+.stripes span:nth-child(1) { background: var(--stripe-orange); }
+.stripes span:nth-child(2) { background: var(--stripe-red); }
+.stripes span:nth-child(3) { background: var(--stripe-magenta); }
+.stripes span:nth-child(4) { background: var(--stripe-violet); }
+
+header,
+main {
+  padding: var(--space-3) var(--space-3) 0;
+}
+
+main {
+  padding-bottom: var(--space-3);
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-family: var(--f-display);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
   color: var(--title-color);
+  overflow-wrap: anywhere;
+}
+
+h1 { font-size: 2.5rem; line-height: 1.1; }
+h2 { font-size: 1.75rem; margin-bottom: var(--space-2); }
+h3 { font-size: 1.25rem; margin-bottom: var(--space-1); }
+
+header p {
+  margin: var(--space-1) 0 0;
+  color: var(--ink-muted);
+}
+
+.category {
+  margin-top: var(--space-3);
+}
+
+.channels {
+  display: grid;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.channel {
+  display: block;
+  min-height: 48px;
+  padding: var(--space-2);
+  background: var(--plate);
+  color: var(--bone);
+  border: 2px solid var(--btn-edge);
+  border-radius: var(--radius-none);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+.channel:hover {
+  background: var(--plum);
+}
+
+.channel:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.channel-name {
+  display: block;
+  font-family: var(--f-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.channel-kind {
+  display: block;
+  font-size: 0.8125rem;
+}
+
+.message {
+  margin: 0;
+  color: var(--ink-muted);
 }
