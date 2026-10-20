@@ -7,6 +7,10 @@ const path = require('node:path');
 const ALLOWED_DOMAINS = ['youtube.com', 'chilevision.cl', 'mega.cl', 'tvn.cl', '13.cl'];
 const REQUIRED_FIELDS = ['id', 'name', 'category', 'type', 'url'];
 const TYPES = ['web', 'youtube'];
+// Las únicas categorías permitidas, con estos nombres exactos.
+const CATEGORIES = ['Nacionales', 'Noticias internacionales', 'Ciencia', 'Artes y cultura', 'Infantil'];
+// live = transmisión en vivo, latest = último video del canal.
+const MODES = ['live', 'latest'];
 
 const channels = JSON.parse(
   fs.readFileSync(path.join(__dirname, '..', 'channels.json'), 'utf8')
@@ -34,12 +38,22 @@ test('cada canal tiene todos los campos y tipos válidos', () => {
       );
     }
     assert.ok(TYPES.includes(c.type), `${label(c, i)}: type debe ser "web" o "youtube", no "${c.type}"`);
+    assert.ok(
+      CATEGORIES.includes(c.category),
+      `${label(c, i)}: la categoría "${c.category}" no es válida. Solo se permiten: ${CATEGORIES.join(', ')}`
+    );
     if (c.type === 'youtube') {
       assert.match(
         c.channelId || '',
         /^UC[\w-]{22}$/,
         `${label(c, i)}: un canal youtube necesita channelId con formato UC + 22 caracteres`
       );
+      assert.ok(
+        MODES.includes(c.mode),
+        `${label(c, i)}: un canal youtube necesita mode "live" o "latest", no "${c.mode}"`
+      );
+    } else if (c.mode !== undefined) {
+      assert.ok(MODES.includes(c.mode), `${label(c, i)}: mode solo puede ser "live" o "latest", no "${c.mode}"`);
     }
   });
 });
