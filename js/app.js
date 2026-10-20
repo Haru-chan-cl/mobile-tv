@@ -1,4 +1,4 @@
-import { loadChannels, groupByCategory } from './data.js';
+import { loadChannels, loadLiveIds, groupByCategory } from './data.js';
 import { renderPlayer } from './player.js';
 
 const KIND_LABELS = {
@@ -10,6 +10,7 @@ const KIND_LABELS = {
 const list = document.getElementById('lista-canales');
 const playerBox = document.getElementById('reproductor-contenido');
 let selectedButton = null;
+let liveIds = {};
 
 function isHttps(url) {
   try {
@@ -60,7 +61,7 @@ function buildYouTubeChannel(channel) {
     if (selectedButton) selectedButton.setAttribute('aria-pressed', 'false');
     selectedButton = button;
     button.setAttribute('aria-pressed', 'true');
-    renderPlayer(playerBox, channel);
+    renderPlayer(playerBox, channel, liveIds);
     playerBox.scrollIntoView({ block: 'nearest' });
   });
   return button;
@@ -98,7 +99,8 @@ function render(channels) {
 
 async function start() {
   try {
-    const channels = await loadChannels();
+    const [channels, ids] = await Promise.all([loadChannels(), loadLiveIds()]);
+    liveIds = ids;
     if (channels.length === 0) {
       showMessage('Todavía no hay canales en la lista.');
       return;
