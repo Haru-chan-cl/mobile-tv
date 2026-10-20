@@ -95,5 +95,14 @@
     "url": "https://www.youtube.com/channel/UC2H_ikinZV8cHVGawVENHpg" },
   { "id": "peppa-pig-es", "name": "Peppa Pig Español Latino", "category": "Infantil",
     "type": "youtube", "mode": "live", "channelId": "UCrreHSUa5rnuCVDeO8dX4eA",
-    "url": "https://www.youtube.com/channel/UCrreHSUa5rnuCVDeO8dX4eA" }
+    "url": "https://www.youtube.com/channel/UCrreHSUa5rnuCVDeO8dX4eA" },
+  { "id": "cartoon-network-la", "name": "Cartoon Network LA", "category": "Infantil",
+    "type": "youtube", "mode": "live", "channelId": "UCQySZQ6rrgJXRuonMwIIGMA",
+    "url": "https://www.youtube.com/channel/UCQySZQ6rrgJXRuonMwIIGMA" },
+  { "id": "wb-kids-latino", "name": "WB Kids Latino", "category": "Infantil",
+    "type": "youtube", "mode": "live", "channelId": "UCtW5GPO_DZon6zVAuinvwxA",
+    "url": "https://www.youtube.com/channel/UCtW5GPO_DZon6zVAuinvwxA" },
+  { "id": "cartoonito-en", "name": "Cartoonito (inglés)", "category": "Infantil",
+    "type": "youtube", "mode": "live", "channelId": "UCrFslqncMIdjD2WfB6pAcEg",
+    "url": "https://www.youtube.com/channel/UCrFslqncMIdjD2WfB6pAcEg" }
 ]
