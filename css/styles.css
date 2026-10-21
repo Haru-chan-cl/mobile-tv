@@ -295,6 +295,64 @@ h3 { font-size: 1.25rem; }
   font-size: 0.8125rem;
 }
 
+/* Últimos vistos y Favoritos: títulos fijos (no se pliegan) arriba de las categorías. */
+.shelf {
+  margin-bottom: var(--space-1);
+}
+
+.shelf-title {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 var(--space-1);
+  border-bottom: 2px solid var(--rule);
+}
+
+.shelf .message {
+  padding: var(--space-1);
+  font-size: 0.875rem;
+}
+
+/* Cada canal lleva a su lado la estrella de favoritos. */
+.channel-row {
+  display: grid;
+  grid-template-columns: 1fr 48px;
+  gap: 2px;
+}
+
+.star {
+  display: grid;
+  place-items: center;
+  min-height: 48px;
+  padding: 0;
+  background: var(--plate);
+  color: var(--bone);
+  border: 2px solid var(--btn-edge);
+  border-radius: var(--radius-none);
+  cursor: pointer;
+}
+
+.star:hover {
+  background: var(--plum);
+}
+
+.star svg {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+
+.star[aria-pressed="true"] {
+  color: var(--stripe-orange);
+}
+
+.star[aria-pressed="true"] svg {
+  fill: currentColor;
+}
+
 /* Barra de pestañas inferior */
 .tabbar {
   background: var(--plate);
@@ -348,6 +406,7 @@ h3 { font-size: 1.25rem; }
 
 /* Foco visible en todo lo que se puede tocar. En la barra el anillo va por dentro para que nada lo recorte. */
 .channel:focus-visible,
+.star:focus-visible,
 .category-toggle:focus-visible,
 .open-youtube:focus-visible {
   outline: 2px solid var(--focus);
