@@ -41,7 +41,7 @@ La app usa el sistema de diseño que Nancy creó: una tapa de casete nocturna ci
 ## Estructura de archivos
 
 ```
-D:\Canales\
+canales/
   index.html
   css/styles.css
   design/tokens.css  (variables de Analog Sunset; se importa desde styles.css)
