@@ -8,7 +8,7 @@ const ALLOWED_DOMAINS = ['youtube.com', 'chilevision.cl', 'mega.cl', 'tvn.cl', '
 const REQUIRED_FIELDS = ['id', 'name', 'category', 'type', 'url'];
 const TYPES = ['web', 'youtube'];
 // Las únicas categorías permitidas, con estos nombres exactos.
-const CATEGORIES = ['Nacionales', 'Noticias internacionales', 'Ciencia', 'Artes y cultura', 'Infantil'];
+const CATEGORIES = ['Nacionales', 'Noticias internacionales', 'Ciencia', 'Artes y cultura', 'Infantil', 'Cristianos'];
 // live = transmisión en vivo, latest = último video del canal.
 const MODES = ['live', 'latest'];
 
