@@ -1,0 +1,180 @@
+/* Estilos de instalar.html. Mismo tema Analog Sunset (tokens propios, tipografías propias, nada externo). */
+@import url("../design/tokens.css");
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: var(--space-1);
+  background: var(--surface);
+  color: var(--ink);
+  font-family: var(--f-jp);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* Tarjeta exterior: lo único con esquinas redondeadas. Aquí la página crece y se desplaza con el teléfono. */
+.card {
+  max-width: 720px;
+  margin: 0 auto;
+  overflow: hidden;
+  background: var(--surface-raised);
+  border-radius: var(--radius-card);
+}
+
+/* Franjas siempre en este orden: naranja, rojo, magenta, violeta. */
+.stripes {
+  display: flex;
+  height: var(--space-1);
+}
+
+.stripes span {
+  flex: 1;
+}
+
+.stripes span:nth-child(1) { background: var(--stripe-orange); }
+.stripes span:nth-child(2) { background: var(--stripe-red); }
+.stripes span:nth-child(3) { background: var(--stripe-magenta); }
+.stripes span:nth-child(4) { background: var(--stripe-violet); }
+
+.topbar {
+  padding: var(--space-2) var(--space-3) 0;
+}
+
+main {
+  padding: var(--space-1) var(--space-2) var(--space-3);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  font-family: var(--f-display);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--title-color);
+}
+
+h1 { font-size: 2rem; line-height: 1.1; }
+
+.intro {
+  margin: var(--space-1) 0 0;
+  color: var(--ink-muted);
+}
+
+.platform {
+  margin: var(--space-3) 0 var(--space-1);
+  padding: 0 var(--space-1) var(--space-1);
+  border-bottom: 2px solid var(--rule);
+  font-size: 1.5rem;
+}
+
+.step {
+  margin-top: var(--space-2);
+  padding: var(--space-2);
+  background: var(--plate);
+  color: var(--bone);
+}
+
+.step h3 {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  margin-bottom: var(--space-1);
+  font-size: 1.375rem;
+  color: var(--bone);
+}
+
+.step h4 {
+  margin: var(--space-2) 0 var(--space-1);
+  font-size: 1.125rem;
+  color: var(--bone);
+}
+
+.step p {
+  margin: 0 0 var(--space-1);
+}
+
+.num {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  background: var(--stripe-orange);
+  color: var(--on-stripe);
+  font-size: 1.25rem;
+}
+
+.step ol {
+  margin: 0 0 var(--space-1);
+  padding-left: var(--space-3);
+}
+
+.step li {
+  margin-bottom: 6px;
+}
+
+/* Botón grande, fácil de tocar con el pulgar. */
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  margin: var(--space-1) 0;
+  padding: 0 var(--space-2);
+  background: var(--stripe-magenta);
+  color: var(--on-stripe);
+  border: 2px solid var(--btn-edge);
+  border-radius: var(--radius-none);
+  font-family: var(--f-display);
+  font-size: 1.375rem;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+}
+
+.alt,
+.note {
+  font-size: 0.875rem;
+}
+
+.note {
+  padding: var(--space-1);
+  border-left: 4px solid var(--stripe-orange);
+}
+
+.step a:not(.button),
+.back a {
+  color: inherit;
+  text-underline-offset: 3px;
+}
+
+.back {
+  margin: var(--space-3) 0 0;
+  text-align: center;
+}
+
+.back a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 var(--space-2);
+  color: var(--ink);
+}
+
+/* Foco visible en todo lo que se puede tocar. */
+a:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.step a:focus-visible {
+  outline-color: var(--stripe-orange);
+}

@@ -1,13 +1,15 @@
 // Service worker simple. Guarda en caché SOLO los archivos de la propia app, para que la lista de canales
 // se vea sin internet. Nunca toca YouTube ni ningún sitio externo, y nunca guarda live-ids.json.
 
-const CACHE = 'canales-v4';
+const CACHE = 'canales-v5';
 
 // Lista cerrada: solo estos archivos propios se guardan.
 const ASSETS = [
   './',
   'index.html',
+  'instalar.html',
   'css/styles.css',
+  'css/instalar.css',
   'design/tokens.css',
   'fonts/barlow-condensed-500.woff2',
   'fonts/barlow-condensed-600.woff2',

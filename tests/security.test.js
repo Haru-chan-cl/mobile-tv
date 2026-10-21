@@ -28,7 +28,7 @@ function stripComments(code) {
 }
 
 const ownCode = ['js/app.js', 'js/data.js', 'js/favorites.js', 'js/player.js', 'js/tabs.js', 'js/register-sw.js', 'sw.js'];
-const ownFiles = [...ownCode, 'index.html', 'css/styles.css', 'design/tokens.css', 'manifest.webmanifest', 'channels.json'];
+const ownFiles = [...ownCode, 'index.html', 'instalar.html', 'css/styles.css', 'css/instalar.css', 'design/tokens.css', 'manifest.webmanifest', 'channels.json'];
 
 test('CSP: bloquea todo por defecto y solo permite lo propio', () => {
   const csp = readCsp();
@@ -82,7 +82,7 @@ test('index.html: sin scripts ni estilos en línea, sin manejadores on... y sin 
 });
 
 test('CSS: sin llamadas externas y con tipografías propias', () => {
-  for (const file of ['css/styles.css', 'design/tokens.css']) {
+  for (const file of ['css/styles.css', 'css/instalar.css', 'design/tokens.css']) {
     const css = stripComments(read(file));
     assert.ok(!/https?:\/\//.test(css), `${file} apunta a una dirección externa`);
     assert.ok(!/@import\s+url\(\s*["']?(https?:)?\/\//.test(css), `${file} importa algo externo`);
@@ -123,4 +123,80 @@ test('código propio: sin eval, sin innerHTML, sin rastreo ni claves', () => {
     assert.ok(!/google-analytics|googletagmanager|gtag\(|fbq\(|hotjar|mixpanel|segment\.com|sentry/i.test(text), `${file}: parece tener rastreo`);
     assert.ok(!/api[_-]?key|secret|password|bearer\s|AIza[0-9A-Za-z_-]{35}/i.test(text), `${file}: parece tener una clave`);
   }
+});
+
+// --- instalar.html: página de ayuda con enlaces oficiales (sin recursos externos) ---
+const installHtml = read('instalar.html');
+const installBody = installHtml.replace(/<!--[\s\S]*?-->/g, '');
+
+test('instalar.html: usa exactamente la misma CSP que index.html', () => {
+  const match = installHtml.match(/<meta http-equiv="Content-Security-Policy" content="([^"]+)">/);
+  assert.ok(match, 'instalar.html debe tener la política de seguridad (CSP) en un <meta>');
+  const index = html.match(/<meta http-equiv="Content-Security-Policy" content="([^"]+)">/);
+  assert.strictEqual(match[1], index[1]);
+  assert.match(installHtml, /<meta name="referrer" content="no-referrer">/);
+  assert.match(installHtml, /<meta http-equiv="X-Content-Type-Options" content="nosniff">/);
+});
+
+test('instalar.html: sin scripts, estilos en línea ni manejadores on..., y solo carga recursos propios', () => {
+  assert.ok(!/<script[\s>]/i.test(installBody), 'la página no necesita scripts');
+  assert.ok(!/<style[\s>]/i.test(installBody), 'hay un <style> en línea');
+  assert.ok(!/\sstyle="/i.test(installBody), 'hay un atributo style en línea');
+  assert.ok(!/\son[a-z]+\s*=/i.test(installBody), 'hay un manejador on... en línea');
+  assert.ok(!/<(iframe|img|video|audio|source|embed|object)[\s>]/i.test(installBody), 'no debe incrustar contenido');
+  for (const [, tag] of installBody.matchAll(/<link\b([^>]*)>/gi)) {
+    const href = tag.match(/href="([^"]+)"/)[1];
+    assert.ok(!/^(https?:)?\/\//.test(href), `<link> externo: ${href}`);
+  }
+});
+
+test('instalar.html: los únicos enlaces de afuera son los oficiales y abren con noopener', () => {
+  const allowed = new Set([
+    'https://play.google.com/store/apps/details?id=com.brave.browser',
+    'https://brave.com/download',
+    'https://apps.apple.com/app/id1052879175',
+    'https://haru-chan-cl.github.io/mobile-tv/',
+  ]);
+  const anchors = [...installBody.matchAll(/<a\b([^>]*)>/gi)].map(([, attrs]) => attrs);
+  assert.ok(anchors.length >= 6);
+  for (const attrs of anchors) {
+    const href = attrs.match(/href="([^"]+)"/)[1];
+    if (/^https?:\/\//.test(href)) {
+      assert.ok(allowed.has(href), `enlace externo no permitido: ${href}`);
+      if (new URL(href).hostname !== 'haru-chan-cl.github.io') {
+        assert.match(attrs, /rel="noopener noreferrer"/, `${href} debe abrir con rel="noopener noreferrer"`);
+      }
+    } else if (!href.startsWith('intent://')) {
+      assert.ok(!/^[a-z][a-z0-9+.-]*:/i.test(href), `esquema no permitido: ${href}`);
+    }
+  }
+});
+
+test('instalar.html: el enlace tipo intent apunta a Brave y a la app, con enlace normal de respaldo', () => {
+  const intent = installBody.match(/href="(intent:\/\/[^"]+)"/);
+  assert.ok(intent, 'falta el enlace intent');
+  assert.match(intent[1], /^intent:\/\/haru-chan-cl\.github\.io\/mobile-tv\/#Intent;/);
+  assert.match(intent[1], /;scheme=https;/);
+  assert.match(intent[1], /;package=com\.brave\.browser;/);
+  assert.match(intent[1], /S\.browser_fallback_url=https%3A%2F%2Fharu-chan-cl\.github\.io%2Fmobile-tv%2F;end$/);
+  assert.match(installBody, /href="https:\/\/haru-chan-cl\.github\.io\/mobile-tv\/"/, 'falta el enlace normal');
+});
+
+test('instalar.html: sin correos, datos personales, rastreo ni claves; sin signos de exclamación (regla del tema)', () => {
+  const text = installBody.replace(/<[^>]*>/g, ' ');
+  assert.ok(!/[\w.+-]+@[\w-]+\.[\w.]+/.test(installHtml), 'no debe haber correos');
+  assert.ok(!/!/.test(text), 'el tema no usa signos de exclamación');
+  assert.ok(!/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/u.test(installHtml), 'el tema no usa emoji');
+  assert.ok(!/google-analytics|googletagmanager|gtag\(|fbq\(|hotjar|mixpanel|segment\.com|sentry/i.test(installHtml));
+});
+
+test('README: la sección "Cómo instalar" enlaza a instalar.html y no hay instaladores en el repo', () => {
+  const readme = read('README.md');
+  assert.match(readme, /## Cómo instalar/);
+  assert.match(readme, /https:\/\/haru-chan-cl\.github\.io\/mobile-tv\/instalar\.html/);
+  assert.ok(!/[\w.+-]+@[\w-]+\.[\w.]+/.test(readme), 'no debe haber correos');
+  const installers = fs.readdirSync(root, { recursive: true })
+    .map(String)
+    .filter((file) => !/node_modules|\.git[\\/]/.test(file) && /\.(apk|aab|ipa|exe|msi|dmg)$/i.test(file));
+  assert.deepStrictEqual(installers, [], 'no se suben instaladores ni APK');
 });
