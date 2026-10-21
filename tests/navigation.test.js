@@ -5,7 +5,8 @@ const path = require('node:path');
 const { pathToFileURL } = require('node:url');
 
 const root = path.join(__dirname, '..');
-const read = (file) => fs.readFileSync(path.join(root, file), 'utf8');
+// Los archivos pueden venir con saltos de línea de Windows (CRLF); se normalizan para que las pruebas no dependan de eso.
+const read = (file) => fs.readFileSync(path.join(root, file), 'utf8').replace(/\r\n/g, '\n');
 const html = read('index.html');
 const css = read('css/styles.css');
 const app = read('js/app.js');
