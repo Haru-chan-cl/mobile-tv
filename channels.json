@@ -111,5 +111,8 @@
     "url": "https://www.youtube.com/channel/UC5EkC0cRoOrWzRcWDCuld5w" },
   { "id": "el-amor-que-vale", "name": "El Amor Que Vale (Adrián Rogers)", "category": "Cristianos",
     "type": "youtube", "mode": "latest", "channelId": "UCpWCHuos0mwmYg6tvt6Uiow",
-    "url": "https://www.youtube.com/channel/UCpWCHuos0mwmYg6tvt6Uiow" }
+    "url": "https://www.youtube.com/channel/UCpWCHuos0mwmYg6tvt6Uiow" },
+  { "id": "lee-warren", "name": "Dr. Lee Warren", "category": "Cristianos",
+    "type": "youtube", "mode": "latest", "channelId": "UCzIZ9JVpX6mZJf8xCvPlkfA",
+    "url": "https://www.youtube.com/channel/UCzIZ9JVpX6mZJf8xCvPlkfA" }
 ]
