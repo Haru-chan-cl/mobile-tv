@@ -27,7 +27,7 @@ function stripComments(code) {
   return code.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
 }
 
-const ownCode = ['js/app.js', 'js/data.js', 'js/player.js', 'js/register-sw.js', 'sw.js'];
+const ownCode = ['js/app.js', 'js/data.js', 'js/player.js', 'js/tabs.js', 'js/register-sw.js', 'sw.js'];
 const ownFiles = [...ownCode, 'index.html', 'css/styles.css', 'design/tokens.css', 'manifest.webmanifest', 'channels.json'];
 
 test('CSP: bloquea todo por defecto y solo permite lo propio', () => {

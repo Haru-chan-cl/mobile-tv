@@ -60,6 +60,11 @@ test('sw.js: la lista de caché solo tiene archivos propios que existen', () => 
   }
 });
 
+test('sw.js: sin internet, una dirección no guardada cae en la raíz y no en index.html (que puede redirigir)', () => {
+  assert.match(sw, /isNavigation \? caches\.match\('\.\/'\)/);
+  assert.ok(!/caches\.match\('index\.html'\)/.test(sw), 'una respuesta redirigida no sirve como página');
+});
+
 test('sw.js: nunca guarda live-ids.json y deja pasar lo externo', () => {
   const block = sw.match(/const ASSETS = \[([\s\S]*?)\];/)[1];
   assert.ok(!block.includes('live-ids'), 'live-ids.json no puede estar en la lista de caché');

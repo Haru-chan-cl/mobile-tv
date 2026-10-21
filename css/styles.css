@@ -6,18 +6,41 @@
   box-sizing: border-box;
 }
 
+/* Sin esta regla, un display propio (flex, grid) le gana al atributo hidden. */
+[hidden] {
+  display: none !important;
+}
+
 body {
   margin: 0;
-  padding: var(--space-2);
+  padding: var(--space-1);
   background: var(--surface);
   color: var(--ink);
   font-family: var(--f-jp);
   line-height: 1.5;
 }
 
-/* La tarjeta exterior es lo único con esquinas redondeadas. */
+/* Texto solo para lectores de pantalla. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* La tarjeta exterior es lo único con esquinas redondeadas. Ocupa toda la pantalla:
+   franjas, título, contenido que se ajusta y barra de pestañas fija abajo. */
 .card {
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
   max-width: 720px;
+  height: calc(100vh - 2 * var(--space-1));
+  height: calc(100dvh - 2 * var(--space-1));
   margin: 0 auto;
   overflow: hidden;
   background: var(--surface-raised);
@@ -39,13 +62,15 @@ body {
 .stripes span:nth-child(3) { background: var(--stripe-magenta); }
 .stripes span:nth-child(4) { background: var(--stripe-violet); }
 
-header,
-main {
-  padding: var(--space-3) var(--space-3) 0;
+.topbar {
+  padding: var(--space-1) var(--space-3) 0;
 }
 
 main {
-  padding-bottom: var(--space-3);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: var(--space-1) var(--space-2) 0;
 }
 
 h1,
@@ -60,68 +85,9 @@ h3 {
   overflow-wrap: anywhere;
 }
 
-h1 { font-size: 2.5rem; line-height: 1.1; }
-h2 { font-size: 1.75rem; margin-bottom: var(--space-2); }
-h3 { font-size: 1.25rem; margin-bottom: var(--space-1); }
-
-header p {
-  margin: var(--space-1) 0 0;
-  color: var(--ink-muted);
-}
-
-.category {
-  margin-top: var(--space-3);
-}
-
-.channels {
-  display: grid;
-  gap: var(--space-1);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.channel {
-  display: block;
-  width: 100%;
-  min-height: 48px;
-  font: inherit;
-  text-align: left;
-  cursor: pointer;
-  padding: var(--space-2);
-  background: var(--plate);
-  color: var(--bone);
-  border: 2px solid var(--btn-edge);
-  border-radius: var(--radius-none);
-  text-decoration: none;
-  overflow-wrap: anywhere;
-}
-
-.channel:hover {
-  background: var(--plum);
-}
-
-.channel:focus-visible {
-  outline: 2px solid var(--focus);
-  outline-offset: 2px;
-}
-
-.channel-name {
-  display: block;
-  font-family: var(--f-display);
-  font-size: 1.25rem;
-  font-weight: 600;
-}
-
-.channel-kind {
-  display: block;
-  font-size: 0.8125rem;
-}
-
-.channel[aria-pressed="true"] {
-  background: var(--stripe-orange);
-  color: var(--on-stripe);
-}
+h1 { font-size: 1.75rem; line-height: 1.1; }
+h2 { font-size: 1.5rem; margin-bottom: var(--space-1); }
+h3 { font-size: 1.25rem; }
 
 .message {
   margin: 0;
@@ -129,23 +95,60 @@ header p {
 }
 
 .notice {
-  margin: 0 0 var(--space-3);
-  padding: var(--space-2);
+  flex: none;
+  margin: 0 0 var(--space-1);
+  padding: var(--space-1) var(--space-2);
   background: var(--plate);
   color: var(--bone);
   border-left: var(--space-1) solid var(--stripe-orange);
+  font-size: 0.875rem;
 }
 
-/* Reproductor: en vertical queda debajo de la lista. */
-.layout {
-  display: grid;
-  gap: var(--space-3);
+/* Paneles de las pestañas: solo uno se ve a la vez y ocupa todo el espacio disponible. */
+.panels {
+  flex: 1;
+  min-height: 0;
 }
 
-#reproductor {
+.panel {
+  height: 100%;
+  min-height: 0;
+  overflow-y: auto;
+  padding: var(--space-1) var(--space-1) var(--space-2);
+}
+
+/* En Vivo: reproductor fijo arriba y la lista debajo con su propio scroll. */
+.live {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  overflow: hidden;
+  padding: 0;
+}
+
+.player-area {
+  flex: none;
   min-width: 0;
+  padding: 4px 4px 0;
 }
 
+.channel-area {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+}
+
+#lista-canales {
+  flex: 1;
+  min-height: 0;
+  /* El relleno deja sitio para que el anillo de foco no quede recortado por el scroll. */
+  padding: 4px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* Reproductor */
 .player-frame {
   position: relative;
   aspect-ratio: 16 / 9;
@@ -160,17 +163,37 @@ header p {
   border: 0;
 }
 
-.player-fallback {
+.player-empty {
   display: grid;
-  gap: var(--space-2);
-  justify-items: start;
-  margin-top: var(--space-2);
+  place-items: center;
+  padding: var(--space-2);
+  text-align: center;
+}
+
+#reproductor-contenido h3 {
+  margin: 0 0 var(--space-1);
+  font-size: 1.125rem;
+}
+
+.player-fallback {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-2);
+  align-items: center;
+  margin-top: var(--space-1);
+}
+
+.player-fallback .message {
+  flex: 1 1 160px;
+  font-size: 0.8125rem;
+  line-height: 1.35;
 }
 
 .open-youtube {
-  display: inline-block;
-  min-height: 48px;
-  padding: var(--space-2) var(--space-3);
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 var(--space-3);
   background: var(--stripe-magenta);
   color: var(--on-stripe);
   border: 2px solid var(--btn-edge);
@@ -181,29 +204,213 @@ header p {
   text-decoration: none;
 }
 
+/* Categorías plegables */
+.category {
+  margin-top: var(--space-1);
+}
+
+.category:first-child {
+  margin-top: 0;
+}
+
+.category-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-1);
+  width: 100%;
+  min-height: 44px;
+  padding: 0 var(--space-1);
+  background: transparent;
+  color: var(--title-color);
+  border: 0;
+  border-bottom: 2px solid var(--rule);
+  border-radius: var(--radius-none);
+  font: inherit;
+  letter-spacing: inherit;
+  text-align: left;
+  text-transform: inherit;
+  cursor: pointer;
+}
+
+/* Flecha dibujada con bordes: hacia abajo si está plegada, hacia arriba si está abierta. */
+.category-toggle::after {
+  content: "";
+  flex: none;
+  width: 8px;
+  height: 8px;
+  margin-right: 6px;
+  border: solid currentColor;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.category-toggle[aria-expanded="true"]::after {
+  transform: rotate(-135deg);
+  margin-top: 6px;
+}
+
+.channels {
+  display: grid;
+  gap: var(--space-1);
+  margin: var(--space-1) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.channel {
+  display: block;
+  width: 100%;
+  min-height: 48px;
+  padding: var(--space-2);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  background: var(--plate);
+  color: var(--bone);
+  border: 2px solid var(--btn-edge);
+  border-radius: var(--radius-none);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+.channel:hover {
+  background: var(--plum);
+}
+
+.channel[aria-pressed="true"] {
+  background: var(--stripe-orange);
+  color: var(--on-stripe);
+}
+
+.channel-name {
+  display: block;
+  font-family: var(--f-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.channel-kind {
+  display: block;
+  font-size: 0.8125rem;
+}
+
+/* Barra de pestañas inferior */
+.tabbar {
+  background: var(--plate);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.tabs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-width: 44px;
+  min-height: 56px;
+  padding: 6px 4px;
+  background: transparent;
+  color: var(--bone);
+  border: 2px solid var(--btn-edge);
+  border-radius: var(--radius-none);
+  font-family: var(--f-display);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.tab svg {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: square;
+  stroke-linejoin: miter;
+}
+
+.tab:hover {
+  background: var(--plum);
+}
+
+.tab[aria-selected="true"] {
+  background: var(--stripe-orange);
+  color: var(--on-stripe);
+}
+
+/* Foco visible en todo lo que se puede tocar. En la barra el anillo va por dentro para que nada lo recorte. */
+.channel:focus-visible,
+.category-toggle:focus-visible,
 .open-youtube:focus-visible {
   outline: 2px solid var(--focus);
   outline-offset: 2px;
 }
 
+.tab:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: -6px;
+}
+
+.tab[aria-selected="true"]:focus-visible {
+  outline-color: var(--on-stripe);
+}
+
+/* Teléfono acostado: poca altura, así que el título se oculta a la vista (sigue para lectores de pantalla)
+   y el reproductor gana ese espacio. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .topbar {
+    padding: 0;
+  }
+
+  .topbar h1,
+  .player-fallback .message {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
 /* En horizontal: la lista queda al lado del reproductor. */
-@media (orientation: landscape) and (min-width: 700px) {
+@media (orientation: landscape) and (min-width: 560px) {
   .card {
     max-width: 1200px;
   }
 
-  .layout {
-    grid-template-columns: minmax(240px, 340px) minmax(0, 1fr);
+  /* El video no puede ser más alto que el espacio libre: así entran el título y el botón de respaldo. */
+  .player-frame {
+    max-width: calc((100vh - 205px) * 16 / 9);
+    max-width: calc((100dvh - 205px) * 16 / 9);
+  }
+
+  .live {
+    display: grid;
+    grid-template-columns: minmax(220px, min(340px, 40%)) minmax(0, 1fr);
+    grid-template-areas: "lista reproductor";
     align-items: start;
+    gap: var(--space-2);
+    padding: 0 var(--space-1);
   }
 
-  #lista-canales {
-    max-height: 70vh;
+  .channel-area {
+    grid-area: lista;
+    height: 100%;
+  }
+
+  .player-area {
+    grid-area: reproductor;
+    max-height: 100%;
     overflow-y: auto;
-  }
-
-  #reproductor {
-    position: sticky;
-    top: var(--space-2);
   }
 }

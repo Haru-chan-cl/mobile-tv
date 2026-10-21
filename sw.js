@@ -1,7 +1,7 @@
 // Service worker simple. Guarda en caché SOLO los archivos de la propia app, para que la lista de canales
 // se vea sin internet. Nunca toca YouTube ni ningún sitio externo, y nunca guarda live-ids.json.
 
-const CACHE = 'canales-v2';
+const CACHE = 'canales-v3';
 
 // Lista cerrada: solo estos archivos propios se guardan.
 const ASSETS = [
@@ -16,6 +16,7 @@ const ASSETS = [
   'js/data.js',
   'js/player.js',
   'js/register-sw.js',
+  'js/tabs.js',
   'channels.json',
   'manifest.webmanifest',
   'icons/icon-192.png',
@@ -65,6 +66,9 @@ self.addEventListener('fetch', (event) => {
         }
         return response;
       })
-      .catch(() => caches.match(request).then((saved) => saved || (isNavigation ? caches.match('index.html') : Response.error())))
+      // Sin internet: lo guardado; y para una página con otra dirección (por ejemplo con parámetros), la raíz de la app.
+      // Se usa './' y no 'index.html' porque algunos servidores redirigen index.html, y el navegador no acepta
+      // una respuesta redirigida como página.
+      .catch(() => caches.match(request).then((saved) => saved || (isNavigation ? caches.match('./') : Response.error())))
   );
 });

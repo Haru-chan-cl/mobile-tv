@@ -45,7 +45,8 @@ canales/
   index.html
   css/styles.css
   design/tokens.css  (variables de Analog Sunset; se importa desde styles.css)
-  js/app.js          (pestañas y arranque)
+  js/app.js          (arranque y lista de canales)
+  js/tabs.js         (barra de pestañas)
   js/data.js         (carga channels.json)
   js/player.js       (reproductor y lista)
   js/favorites.js    (favoritos)
@@ -69,6 +70,19 @@ canales/
 ]
 ```
 Campos: `id` (único), `name`, `category`, `type` (`web` o `youtube`), `url` (https), y `channelId` solo para `youtube`.
+
+## Navegación de 4 pestañas
+
+La app se organiza como muchas apps de televisión y video: una **barra inferior fija** con cuatro pestañas, cada una con ícono y texto.
+
+| Pestaña | Contenido |
+|---|---|
+| **Inicio** | Pantalla vacía con "Próximamente". Después recibirá "Seguir viendo", favoritos y atajos (Tarea 7). |
+| **En Vivo** | Todo lo que ya existe. El **reproductor queda fijo arriba** para que el video aparezca sin bajar, y la lista de canales va debajo con su propio scroll. Cada categoría se pliega y se despliega tocando su título. |
+| **VOD** | Pantalla vacía con "Próximamente". Queda para una fase posterior. |
+| **Perfil** | Pantalla vacía con "Próximamente". |
+
+La app abre en **En Vivo**, porque es la pestaña con contenido. Es accesible: se usa con teclado (flechas, Inicio y Fin), tiene foco visible y botones de al menos 44 px. Sigue las reglas del proyecto: archivos propios, sin librerías, con la CSP y el modo sin conexión intactos.
 
 ## Cómo repartir el trabajo entre agentes
 

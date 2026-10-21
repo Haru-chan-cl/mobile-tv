@@ -1,11 +1,15 @@
 import { loadChannels, loadLiveIds, groupByCategory } from './data.js';
 import { renderPlayer } from './player.js';
+import { initTabs } from './tabs.js';
 
 const KIND_LABELS = {
   web: 'Sitio oficial, se abre en una pestaña nueva',
   live: 'En vivo, se ve aquí en la app',
   latest: 'Últimos videos, se ven aquí en la app',
 };
+
+// La app abre en En Vivo porque es la pestaña con contenido.
+initTabs(document.getElementById('barra-pestanas'), 'en-vivo');
 
 const list = document.getElementById('lista-canales');
 const playerBox = document.getElementById('reproductor-contenido');
@@ -60,7 +64,8 @@ function buildWebChannel(channel) {
   return link;
 }
 
-// Canal de YouTube: botón que reproduce dentro de la app.
+// Canal de YouTube: botón que reproduce dentro de la app. El reproductor está fijo arriba,
+// así que el video aparece sin tener que bajar.
 function buildYouTubeChannel(channel) {
   const button = document.createElement('button');
   button.type = 'button';
@@ -73,7 +78,6 @@ function buildYouTubeChannel(channel) {
     selectedButton = button;
     button.setAttribute('aria-pressed', 'true');
     renderPlayer(playerBox, channel, liveIds);
-    playerBox.scrollIntoView({ block: 'nearest' });
   });
   return button;
 }
@@ -85,25 +89,44 @@ function buildChannel(channel) {
   return item;
 }
 
+// El título de cada categoría es un botón que pliega y despliega su lista.
+function buildCategory(category, items, index) {
+  const section = document.createElement('section');
+  section.className = 'category';
+
+  const channelList = document.createElement('ul');
+  channelList.className = 'channels';
+  channelList.id = `categoria-${index}`;
+  for (const channel of items) {
+    if (isHttps(channel.url)) {
+      channelList.append(buildChannel(channel));
+    }
+  }
+
+  const toggle = document.createElement('button');
+  toggle.type = 'button';
+  toggle.className = 'category-toggle';
+  toggle.setAttribute('aria-expanded', 'true');
+  toggle.setAttribute('aria-controls', channelList.id);
+  toggle.textContent = category;
+  toggle.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!open));
+    channelList.hidden = open;
+  });
+
+  const title = document.createElement('h3');
+  title.append(toggle);
+
+  section.append(title, channelList);
+  return section;
+}
+
 function render(channels) {
   const fragment = document.createDocumentFragment();
+  let index = 0;
   for (const [category, items] of groupByCategory(channels)) {
-    const section = document.createElement('section');
-    section.className = 'category';
-
-    const title = document.createElement('h3');
-    title.textContent = category;
-
-    const channelList = document.createElement('ul');
-    channelList.className = 'channels';
-    for (const channel of items) {
-      if (isHttps(channel.url)) {
-        channelList.append(buildChannel(channel));
-      }
-    }
-
-    section.append(title, channelList);
-    fragment.append(section);
+    fragment.append(buildCategory(category, items, index++));
   }
   list.replaceChildren(fragment);
 }
