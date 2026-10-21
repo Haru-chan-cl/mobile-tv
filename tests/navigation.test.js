@@ -83,7 +83,8 @@ test('En Vivo: el reproductor va arriba y la lista de canales debajo', () => {
 
 test('categorías plegables: el título es un botón con aria-expanded y aria-controls', () => {
   assert.match(app, /className = 'category-toggle'/);
-  assert.match(app, /toggle\.setAttribute\('aria-expanded', 'true'\)/, 'las categorías deben empezar desplegadas y declararlo');
+  assert.match(app, /toggle\.setAttribute\('aria-expanded', 'false'\)/, 'las categorías deben empezar plegadas y declararlo');
+  assert.match(app, /channelList\.hidden = true/, 'la lista de cada categoría debe empezar oculta');
   assert.match(app, /toggle\.setAttribute\('aria-expanded', String\(!open\)\)/, 'al tocar, aria-expanded debe cambiar');
   assert.match(app, /setAttribute\('aria-controls'/);
   assert.match(app, /channelList\.hidden = open/);

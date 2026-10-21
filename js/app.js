@@ -106,7 +106,8 @@ function buildCategory(category, items, index) {
   const toggle = document.createElement('button');
   toggle.type = 'button';
   toggle.className = 'category-toggle';
-  toggle.setAttribute('aria-expanded', 'true');
+  toggle.setAttribute('aria-expanded', 'false');
+  channelList.hidden = true;
   toggle.setAttribute('aria-controls', channelList.id);
   toggle.textContent = category;
   toggle.addEventListener('click', () => {
