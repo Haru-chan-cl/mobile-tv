@@ -15,7 +15,8 @@ export function isValidVideoId(videoId) {
 }
 
 // live: transmisión en vivo. Si live-ids.json tiene un videoId válido para el canal se usa ese video;
-// si no, se pide el vivo del canal. latest: lista "subidos" del canal (UU + el ID sin las letras UC).
+// si no, se pide el vivo del canal. latest: lista de YouTube con solo los videos normales del canal, sin Shorts
+// (UULF + el ID sin las letras UC).
 export function buildEmbedUrl(channel, liveIds = {}) {
   const id = channel.channelId;
   if (!isValidChannelId(id)) return null;
@@ -24,7 +25,7 @@ export function buildEmbedUrl(channel, liveIds = {}) {
     if (isValidVideoId(videoId)) return `${EMBED_BASE}/${videoId}`;
     return `${EMBED_BASE}/live_stream?channel=${id}`;
   }
-  if (channel.mode === 'latest') return `${EMBED_BASE}/videoseries?list=UU${id.slice(2)}`;
+  if (channel.mode === 'latest') return `${EMBED_BASE}/videoseries?list=UULF${id.slice(2)}`;
   return null;
 }
 
