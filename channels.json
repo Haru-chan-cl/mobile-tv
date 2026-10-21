@@ -102,5 +102,14 @@
     "url": "https://www.youtube.com/channel/UCtW5GPO_DZon6zVAuinvwxA" },
   { "id": "cartoonito-en", "name": "Cartoonito (inglés)", "category": "Infantil",
     "type": "youtube", "mode": "live", "channelId": "UCrFslqncMIdjD2WfB6pAcEg",
-    "url": "https://www.youtube.com/channel/UCrFslqncMIdjD2WfB6pAcEg" }
+    "url": "https://www.youtube.com/channel/UCrFslqncMIdjD2WfB6pAcEg" },
+  { "id": "love-israel", "name": "Love Israel", "category": "Cristianos",
+    "type": "youtube", "mode": "live", "channelId": "UCPEwY2s9va8K_fGXkl8wspA",
+    "url": "https://www.youtube.com/channel/UCPEwY2s9va8K_fGXkl8wspA" },
+  { "id": "voces-de-israel", "name": "Voces de Israel", "category": "Cristianos",
+    "type": "youtube", "mode": "latest", "channelId": "UC5EkC0cRoOrWzRcWDCuld5w",
+    "url": "https://www.youtube.com/channel/UC5EkC0cRoOrWzRcWDCuld5w" },
+  { "id": "el-amor-que-vale", "name": "El Amor Que Vale (Adrián Rogers)", "category": "Cristianos",
+    "type": "youtube", "mode": "latest", "channelId": "UCpWCHuos0mwmYg6tvt6Uiow",
+    "url": "https://www.youtube.com/channel/UCpWCHuos0mwmYg6tvt6Uiow" }
 ]
