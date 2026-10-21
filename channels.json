@@ -104,7 +104,7 @@
     "type": "youtube", "mode": "live", "channelId": "UCrFslqncMIdjD2WfB6pAcEg",
     "url": "https://www.youtube.com/channel/UCrFslqncMIdjD2WfB6pAcEg" },
   { "id": "love-israel", "name": "Love Israel", "category": "Cristianos",
-    "type": "youtube", "mode": "live", "channelId": "UCPEwY2s9va8K_fGXkl8wspA",
+    "type": "youtube", "mode": "latest", "channelId": "UCPEwY2s9va8K_fGXkl8wspA",
     "url": "https://www.youtube.com/channel/UCPEwY2s9va8K_fGXkl8wspA" },
   { "id": "voces-de-israel", "name": "Voces de Israel", "category": "Cristianos",
     "type": "youtube", "mode": "latest", "channelId": "UC5EkC0cRoOrWzRcWDCuld5w",
