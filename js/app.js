@@ -12,6 +12,17 @@ const playerBox = document.getElementById('reproductor-contenido');
 let selectedButton = null;
 let liveIds = {};
 
+// Aviso cuando no hay internet: la lista se ve (viene guardada), pero los videos no.
+const offlineNotice = document.getElementById('aviso-sin-conexion');
+
+function updateOnlineStatus() {
+  offlineNotice.hidden = navigator.onLine;
+}
+
+window.addEventListener('online', updateOnlineStatus);
+window.addEventListener('offline', updateOnlineStatus);
+updateOnlineStatus();
+
 function isHttps(url) {
   try {
     return new URL(url).protocol === 'https:';

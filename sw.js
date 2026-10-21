@@ -1,0 +1,67 @@
+// Service worker simple. Guarda en caché SOLO los archivos de la propia app, para que la lista de canales
+// se vea sin internet. Nunca toca YouTube ni ningún sitio externo, y nunca guarda live-ids.json.
+
+const CACHE = 'canales-v1';
+
+// Lista cerrada: solo estos archivos propios se guardan.
+const ASSETS = [
+  './',
+  'index.html',
+  'css/styles.css',
+  'design/tokens.css',
+  'js/app.js',
+  'js/data.js',
+  'js/player.js',
+  'js/register-sw.js',
+  'channels.json',
+  'manifest.webmanifest',
+  'icons/icon-192.png',
+  'icons/icon-512.png',
+  'icons/icon-maskable-512.png',
+];
+
+const assetUrls = new Set(ASSETS.map((asset) => new URL(asset, self.location).href));
+
+self.addEventListener('install', (event) => {
+  event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(ASSETS)).then(() => self.skipWaiting()));
+});
+
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches
+      .keys()
+      .then((names) => Promise.all(names.filter((name) => name !== CACHE).map((name) => caches.delete(name))))
+      .then(() => self.clients.claim())
+  );
+});
+
+self.addEventListener('fetch', (event) => {
+  const request = event.request;
+  const url = new URL(request.url);
+
+  // Todo lo que no sea de la propia app (YouTube, fuentes, sitios oficiales) pasa directo, sin caché.
+  if (request.method !== 'GET' || url.origin !== self.location.origin) return;
+
+  // Los IDs de vivo cambian: siempre se piden frescos y nunca se guardan.
+  if (url.pathname.endsWith('/live-ids.json')) {
+    event.respondWith(fetch(request, { cache: 'no-store' }));
+    return;
+  }
+
+  // Cualquier otro archivo que no esté en la lista tampoco se guarda.
+  const isNavigation = request.mode === 'navigate';
+  if (!isNavigation && !assetUrls.has(url.href)) return;
+
+  // Primero internet (así los cambios llegan apenas hay conexión); si no hay, lo guardado.
+  event.respondWith(
+    fetch(request)
+      .then((response) => {
+        if (response.ok && assetUrls.has(url.href)) {
+          const copy = response.clone();
+          caches.open(CACHE).then((cache) => cache.put(request, copy));
+        }
+        return response;
+      })
+      .catch(() => caches.match(request).then((saved) => saved || (isNavigation ? caches.match('index.html') : Response.error())))
+  );
+});
