@@ -2,6 +2,12 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
+  <!-- Política de seguridad: todo es propio, salvo los marcos del reproductor de YouTube. Sin scripts ni estilos en línea.
+       Lo que YouTube necesite dentro de su marco lo gobierna YouTube, no esta página. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; manifest-src 'self'; worker-src 'self'; frame-src https://www.youtube-nocookie.com; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="referrer" content="no-referrer">
+  <!-- Los navegadores solo respetan X-Content-Type-Options como cabecera HTTP; aquí queda como declaración. -->
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Canales</title>
   <meta name="theme-color" content="#18000c">
