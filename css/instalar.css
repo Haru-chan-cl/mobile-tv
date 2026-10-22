@@ -63,6 +63,9 @@ h4 {
 
 h1 { font-size: 2rem; line-height: 1.1; }
 
+/* El nombre de la app se escribe siempre "mobile TV", sin pasarlo a mayúsculas. */
+.brand { text-transform: none; }
+
 .intro {
   margin: var(--space-1) 0 0;
   color: var(--ink-muted);

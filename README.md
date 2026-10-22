@@ -1,4 +1,4 @@
-# Canales
+# mobile TV
 
 App para ver canales de TV abiertos, noticias y ciencia en vivo, usando solo fuentes oficiales y públicas. El plan completo está en `tasks/plan.md`.
 

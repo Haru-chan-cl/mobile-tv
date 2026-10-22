@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Favicon de mobile TV: el mismo televisor, más simple y con trazos más gruesos para que se lea a 16 px.
+       Sin las tres rayitas ni el brillo. Colores de design/tokens.css. -->
+  <rect width="512" height="512" rx="112" fill="#18000c"/>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M256 150 160 52M256 150 352 52" stroke="#f4e2e0" stroke-width="32"/>
+    <path d="M150 400v44M362 400v44" stroke="#f4e2e0" stroke-width="44"/>
+  </g>
+  <rect x="48" y="140" width="416" height="272" rx="72" fill="#fc6c18"/>
+  <rect x="82" y="176" width="236" height="200" rx="60" fill="#600084"/>
+  <circle cx="392" cy="232" r="32" fill="#18000c"/>
+  <circle cx="392" cy="324" r="32" fill="#18000c"/>
+</svg>

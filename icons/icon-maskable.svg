@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Versión maskable de icon.svg: fondo sólido a pantalla completa (el sistema lo recorta) y el dibujo
+       reducido al 80 % para que quede dentro de la zona segura (círculo central del 80 % del ancho).
+       Colores de design/tokens.css. -->
+  <rect width="512" height="512" fill="#18000c"/>
+  <g transform="translate(51.2 53.6) scale(.8)">
+    <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M256 140 172 56M256 140 340 56" stroke="#f4e2e0" stroke-width="20"/>
+      <path d="M148 400v40M364 400v40" stroke="#f4e2e0" stroke-width="32"/>
+    </g>
+    <rect x="64" y="140" width="384" height="260" rx="64" fill="#fc6c18"/>
+    <rect x="92" y="170" width="224" height="200" rx="56" fill="#600084"/>
+    <path d="M126 224q0-26 26-28" fill="none" stroke="#f4e2e0" stroke-width="12" stroke-linecap="round"/>
+    <circle cx="382" cy="214" r="26" fill="#18000c"/>
+    <circle cx="382" cy="278" r="26" fill="#18000c"/>
+    <path d="M354 326h56M354 346h56M354 366h56" fill="none" stroke="#18000c" stroke-width="10" stroke-linecap="round"/>
+  </g>
+</svg>

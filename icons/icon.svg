@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Icono de mobile TV: televisor retro dibujado a mano, sin imágenes externas.
+       Colores de design/tokens.css (Analog Sunset): fondo surface #18000c, carcasa stripe-orange #fc6c18,
+       pantalla stripe-violet #600084, antenas, patas y brillo bone #f4e2e0. -->
+  <rect width="512" height="512" rx="112" fill="#18000c"/>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- antenas en V -->
+    <path d="M256 140 172 56M256 140 340 56" stroke="#f4e2e0" stroke-width="20"/>
+    <!-- patitas -->
+    <path d="M148 400v40M364 400v40" stroke="#f4e2e0" stroke-width="32"/>
+  </g>
+  <!-- carcasa redondeada -->
+  <rect x="64" y="140" width="384" height="260" rx="64" fill="#fc6c18"/>
+  <!-- pantalla con esquinas curvas y su brillo -->
+  <rect x="92" y="170" width="224" height="200" rx="56" fill="#600084"/>
+  <path d="M126 224q0-26 26-28" fill="none" stroke="#f4e2e0" stroke-width="12" stroke-linecap="round"/>
+  <!-- dos perillas -->
+  <circle cx="382" cy="214" r="26" fill="#18000c"/>
+  <circle cx="382" cy="278" r="26" fill="#18000c"/>
+  <!-- tres rayitas -->
+  <path d="M354 326h56M354 346h56M354 366h56" fill="none" stroke="#18000c" stroke-width="10" stroke-linecap="round"/>
+</svg>
