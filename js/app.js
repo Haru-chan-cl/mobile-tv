@@ -207,16 +207,43 @@ function refreshShelves() {
   }
 }
 
+// Título con botón que pliega y despliega una lista. Nace plegado. Lo usan las categorías y Favoritos.
+function buildFoldTitle(label, channelList) {
+  const toggle = document.createElement('button');
+  toggle.type = 'button';
+  toggle.className = 'category-toggle';
+  toggle.setAttribute('aria-expanded', 'false');
+  channelList.hidden = true;
+  toggle.setAttribute('aria-controls', channelList.id);
+  toggle.textContent = label;
+  toggle.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!open));
+    channelList.hidden = open;
+  });
+
+  const title = document.createElement('h3');
+  title.append(toggle);
+  return title;
+}
+
 // Una repisa es un título con su lista de canales, arriba de las categorías.
-function buildShelf(title, id) {
+// Si es plegable, el título es el mismo botón que usan las categorías y la lista empieza oculta.
+function buildShelf(title, id, { collapsible = false } = {}) {
   const section = document.createElement('section');
   section.className = 'shelf';
-  const heading = document.createElement('h3');
-  heading.className = 'shelf-title';
-  heading.textContent = title;
   const channelList = document.createElement('ul');
   channelList.className = 'channels';
   channelList.id = id;
+
+  let heading;
+  if (collapsible) {
+    heading = buildFoldTitle(title, channelList);
+  } else {
+    heading = document.createElement('h3');
+    heading.className = 'shelf-title';
+    heading.textContent = title;
+  }
   section.append(heading, channelList);
   return { section, channelList };
 }
@@ -235,23 +262,7 @@ function buildCategory(category, items, index) {
     }
   }
 
-  const toggle = document.createElement('button');
-  toggle.type = 'button';
-  toggle.className = 'category-toggle';
-  toggle.setAttribute('aria-expanded', 'false');
-  channelList.hidden = true;
-  toggle.setAttribute('aria-controls', channelList.id);
-  toggle.textContent = category;
-  toggle.addEventListener('click', () => {
-    const open = toggle.getAttribute('aria-expanded') === 'true';
-    toggle.setAttribute('aria-expanded', String(!open));
-    channelList.hidden = open;
-  });
-
-  const title = document.createElement('h3');
-  title.append(toggle);
-
-  section.append(title, channelList);
+  section.append(buildFoldTitle(category, channelList), channelList);
   return section;
 }
 
@@ -262,7 +273,7 @@ function render(channels) {
   const recentShelf = buildShelf('Últimos vistos', 'ultimos-vistos');
   recentsSection = recentShelf.section;
   recentsList = recentShelf.channelList;
-  const favoriteShelf = buildShelf('Favoritos', 'favoritos');
+  const favoriteShelf = buildShelf('Favoritos', 'favoritos', { collapsible: true });
   favoritesList = favoriteShelf.channelList;
   fragment.append(recentsSection, favoriteShelf.section);
 

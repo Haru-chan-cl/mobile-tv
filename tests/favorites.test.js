@@ -145,3 +145,20 @@ test('estilos: la estrella tiene foco visible, tamaño táctil y usa los colores
   assert.match(css, /\.star\s*\{[^}]*min-height:\s*48px/);
   assert.match(css, /\.star\[aria-pressed="true"\]\s*\{[^}]*var\(--stripe-orange\)/);
 });
+
+test('Favoritos se pliega igual que las categorías: mismo botón, empieza plegado y Últimos vistos no cambia', () => {
+  // Una sola función arma el botón plegable y la usan las categorías y Favoritos (sin código duplicado).
+  assert.strictEqual(app.match(/function buildFoldTitle\(/g).length, 1);
+  assert.match(app, /fragment\.append\(buildCategory\(|section\.append\(buildFoldTitle\(category, channelList\), channelList\)/);
+  assert.match(app, /heading = buildFoldTitle\(title, channelList\)/, 'las repisas plegables usan el mismo botón');
+  assert.strictEqual(app.match(/className = 'category-toggle'/g).length, 1, 'el botón de pliegue no debe estar repetido');
+  assert.strictEqual(app.match(/aria-expanded', String\(!open\)/g).length, 1, 'la lógica de abrir y cerrar no debe estar repetida');
+  // Favoritos es plegable; Últimos vistos sigue con su título fijo.
+  assert.match(app, /buildShelf\('Favoritos', 'favoritos', \{ collapsible: true \}\)/);
+  assert.match(app, /buildShelf\('Últimos vistos', 'ultimos-vistos'\)/);
+  // Nace plegado, con aria-expanded y aria-controls ligados a la lista.
+  const helper = app.slice(app.indexOf('function buildFoldTitle('), app.indexOf('function buildShelf('));
+  assert.match(helper, /aria-expanded', 'false'/);
+  assert.match(helper, /channelList\.hidden = true/);
+  assert.match(helper, /aria-controls', channelList\.id/);
+});
